@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Pembelajaran Interaktif PAI dan Budi Pekerti Kelas XI — MS GPAI SMANSAKU</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* =========================================================
+   MEDIA PEMBELAJARAN INTERAKTIF PAI & BUDI PEKERTI KELAS XI
+   Tema: MS GPAI SMANSAKU
+   Dibuat dalam satu file: HTML + CSS + Vanilla JavaScript
+   ========================================================= */
+
+:root{
+  --primary:#0f766e;
+  --primary-dark:#115e59;
+  --primary-light:#14b8a6;
+  --accent:#f59e0b;
+  --danger:#ef4444;
+  --success:#22c55e;
+  --info:#3b82f6;
+
+  --bg:linear-gradient(135deg,#eef7f6 0%,#f8fafc 55%,#e7f6f2 100%);
+  --surface:rgba(255,255,255,.72);
+  --surface-strong:rgba(255,255,255,.88);
+  --border:rgba(15,118,110,.18);
+  --text:#0f172a;
+  --muted:#52606d;
+  --shadow:0 18px 45px rgba(15,118,110,.14);
+  --radius:20px;
+}
+
+/* Mode gelap */
+body.dark{
+  --bg:linear-gradient(135deg,#041412 0%,#0b1f1d 55%,#07231f 100%);
+  --surface:rgba(17,32,30,.68);
+  --surface-strong:rgba(10,25,23,.88);
+  --border:rgba(20,184,166,.22);
+  --text:#e6fffb;
+  --muted:#a7c4bf;
+  --shadow:0 18px 45px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,sans-serif;
+  color:var(--text);
+  background:var(--bg);
+  min-height:100vh;
+  line-height:1.65;
+  overflow-x:hidden;
+  transition:background .4s ease,color .4s ease;
+}
+
+/* ========== UTILITAS ========== */
+.hidden{display:none !important}
+.center{text-align:center}
+.muted{color:var(--muted)}
+.small{font-size:.83rem}
+.bold{font-weight:700}
+.arabic{
+  font-family:'Amiri',serif;
+  font-size:1.65rem;
+  direction:rtl;
+  text-align:right;
+  line-height:2.15;
+}
+.mt-1{margin-top:.65rem}
+.mt-2{margin-top:1.15rem}
+.mt-3{margin-top:1.75rem}
+.mb-1{margin-bottom:.65rem}
+.mb-2{margin-bottom:1.15rem}
+.flex{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap}
+.spread{justify-content:space-between}
+
+/* ========== HEADER ========== */
+header.app-header{
+  position:sticky;
+  top:0;
+  z-index:60;
+  backdrop-filter:blur(18px);
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  box-shadow:0 8px 30px rgba(15,118,110,.08);
+}
+.header-inner{
+  max-width:1400px;
+  margin:auto;
+  padding:.8rem 1rem;
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:.75rem;
+  min-width:0;
+}
+.brand-icon{
+  width:44px;height:44px;
+  border-radius:14px;
+  display:grid;place-items:center;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  box-shadow:0 8px 20px rgba(20,184,166,.35);
+  font-size:1.15rem;
+}
+.brand-text h1{
+  font-size:1rem;
+  font-weight:800;
+  line-height:1.15;
+  letter-spacing:-.2px;
+}
+.brand-text p{font-size:.72rem;color:var(--muted);font-weight:500}
+.header-actions{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.icon-btn{
+  width:42px;height:42px;
+  border-radius:13px;
+  border:1px solid var(--border);
+  background:var(--surface-strong);
+  color:var(--primary);
+  cursor:pointer;
+  display:grid;place-items:center;
+  transition:.25s;
+}
+.icon-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,118,110,.16)}
+.menu-btn{display:none}
+
+/* ========== SIDEBAR ========== */
+.sidebar{
+  position:fixed;
+  z-index:80;
+  top:0;left:0;
+  width:290px;height:100vh;
+  padding:1.1rem;
+  background:var(--surface-strong);
+  backdrop-filter:blur(22px);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  transform:translateX(-105%);
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.sidebar.open{transform:translateX(0)}
+.sidebar-close{
+  position:absolute;
+  top:.8rem;right:.8rem;
+}
+.sidebar-brand{
+  display:flex;gap:.7rem;align-items:center;
+  padding:.4rem .3rem 1rem;
+}
+.sidebar-nav{display:grid;gap:.45rem}
+.nav-item{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.8rem .9rem;
+  border-radius:15px;
+  border:1px solid transparent;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  font-size:.92rem;
+  cursor:pointer;
+  transition:.25s;
+  background:transparent;
+  width:100%;
+  text-align:left;
+}
+.nav-item i{width:22px;text-align:center;color:var(--primary)}
+.nav-item:hover{background:rgba(20,184,166,.1);transform:translateX(3px)}
+.nav-item.active{
+  background:linear-gradient(135deg,rgba(15,118,110,.16),rgba(20,184,166,.14));
+  border-color:var(--border);
+  color:var(--primary-dark);
+}
+body.dark .nav-item.active{color:#7ff3e0}
+.sidebar-footer{
+  margin-top:1.2rem;
+  padding:1rem;
+  border-radius:18px;
+  background:rgba(20,184,166,.1);
+  border:1px solid var(--border);
+}
+.user-chip{
+  display:flex;align-items:center;gap:.7rem;
+  margin-bottom:.8rem;
+}
+.avatar{
+  width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;
+  color:#fff;font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+}
+
+/* ========== LAYOUT ========== */
+main{
+  max-width:1400px;
+  margin:auto;
+  padding:1.2rem 1rem 6rem;
+}
+.page{animation:fadeUp .5s ease both}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+.breadcrumb{
+  display:flex;align-items:center;gap:.45rem;
+  font-size:.8rem;color:var(--muted);
+  margin-bottom:.8rem;
+  flex-wrap:wrap;
+}
+.breadcrumb i{font-size:.7rem}
+.breadcrumb strong{color:var(--primary)}
+
+/* ========== KARTU / GLASSMORPHISM ========== */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(18px);
+  padding:1.3rem;
+  transition:.3s;
+}
+.card:hover{transform:translateY(-3px)}
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1rem;
+}
+.card h2{font-size:1.15rem;margin-bottom:.4rem}
+.card h3{font-size:1rem;margin-bottom:.35rem}
+.card p,.card li{font-size:.92rem;color:var(--muted)}
+.card ul{padding-left:1.2rem}
+.card ul li{margin:.3rem 0}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:1.6rem;
+  border-radius:26px;
+  background:linear-gradient(135deg,rgba(15,118,110,.92),rgba(20,184,166,.82));
+  color:#fff;
+  box-shadow:0 22px 50px rgba(15,118,110,.28);
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  width:280px;height:280px;
+  border-radius:50%;
+  right:-70px;top:-90px;
+  background:rgba(255,255,255,.16);
+}
+.hero h2{font-size:clamp(1.35rem,4vw,2rem);font-weight:800;margin-bottom:.45rem}
+.hero p{color:rgba(255,255,255,.88);font-size:.95rem;max-width:680px}
+.hero .badge{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.28);
+  color:#fff;
+  padding:.4rem .8rem;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:600;
+  margin-bottom:.8rem;
+}
+.hero-actions{margin-top:1.1rem;display:flex;gap:.7rem;flex-wrap:wrap}
+
+/* ========== TOMBOL ========== */
+.btn{
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  font-weight:700;
+  font-size:.9rem;
+  padding:.8rem 1.15rem;
+  border-radius:14px;
+  display:inline-flex;
+  align-items:center;
+  gap:.55rem;
+  transition:.25s;
+  text-decoration:none;
+}
+.btn-primary{
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  box-shadow:0 10px 24px rgba(15,118,110,.28);
+}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{
+  background:var(--surface-strong);
+  color:var(--primary);
+  border:1px solid var(--border);
+}
+.btn-ghost:hover{transform:translateY(-2px)}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff}
+.btn-success{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+/* ========== FORM ========== */
+label{display:block;font-weight:600;font-size:.85rem;margin-bottom:.35rem}
+input,select,textarea{
+  width:100%;
+  font-family:inherit;
+  font-size:.95rem;
+  color:var(--text);
+  padding:.85rem 1rem;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:var(--surface-strong);
+  outline:none;
+  transition:.25s;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--primary-light);
+  box-shadow:0 0 0 4px rgba(20,184,166,.15);
+}
+.field{margin-bottom:1rem}
+
+/* ========== PROGRESS ========== */
+.progress-track{
+  height:11px;
+  width:100%;
+  border-radius:999px;
+  background:rgba(15,118,110,.13);
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-light));
+  transition:width .5s ease;
+}
+.progress-row{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:.35rem}
+
+/* ========== TAB / PILLS ========== */
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+.tab{
+  border:1px solid var(--border);
+  background:var(--surface-strong);
+  color:var(--muted);
+  padding:.55rem .95rem;
+  border-radius:999px;
+  font-weight:600;font-size:.83rem;
+  cursor:pointer;
+  transition:.25s;
+}
+.tab.active{background:var(--primary);color:#fff;border-color:transparent}
+.tab-content{animation:fadeUp .35s ease both}
+
+/* ========== KUIS ========== */
+.quiz-top{
+  display:flex;justify-content:space-between;align-items:center;gap:.7rem;
+  margin-bottom:1rem;flex-wrap:wrap;
+}
+.timer{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.55rem .9rem;
+  border-radius:999px;
+  background:rgba(15,118,110,.1);
+  border:1px solid var(--border);
+  font-weight:700;color:var(--primary);
+}
+.timer.danger{background:rgba(239,68,68,.12);color:var(--danger);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.05)}}
+.option{
+  width:100%;
+  text-align:left;
+  padding:.9rem 1rem;
+  margin-bottom:.65rem;
+  border-radius:15px;
+  border:1px solid var(--border);
+  background:var(--surface-strong);
+  color:var(--text);
+  font-family:inherit;
+  font-size:.92rem;
+  cursor:pointer;
+  transition:.2s;
+  display:flex;gap:.7rem;align-items:flex-start;
+}
+.option:hover:not(:disabled){transform:translateX(4px);border-color:var(--primary-light)}
+.option .letter{
+  width:28px;height:28px;flex:0 0 28px;
+  border-radius:9px;
+  display:grid;place-items:center;
+  font-weight:800;font-size:.78rem;
+  background:rgba(15,118,110,.1);
+  color:var(--primary);
+}
+.option.correct{border-color:var(--success);background:rgba(34,197,94,.13)}
+.option.wrong{border-color:var(--danger);background:rgba(239,68,68,.12)}
+.option:disabled{cursor:not-allowed;opacity:.85}
+.quiz-feedback{
+  margin-top:.8rem;
+  padding:.85rem 1rem;
+  border-radius:14px;
+  font-size:.88rem;
+  display:none;
+}
+.quiz-feedback.show{display:block;animation:fadeUp .3s ease}
+.quiz-feedback.correct{background:rgba(34,197,94,.13);border:1px solid rgba(34,197,94,.35)}
+.quiz-feedback.wrong{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3)}
+.hots-badge{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.3rem .65rem;
+  border-radius:999px;
+  background:rgba(245,158,11,.15);
+  color:#b45309;
+  font-size:.7rem;font-weight:800;
+}
+body.dark .hots-badge{color:#fbbf24}
+
+/* ========== GAME URUTKAN ========== */
+.order-item{
+  padding:.85rem 1rem;
+  border-radius:15px;
+  border:1px dashed var(--border);
+  background:var(--surface-strong);
+  margin-bottom:.55rem;
+  cursor:grab;
+  user-select:none;
+  font-size:.9rem;
+  transition:.2s;
+}
+.order-item:hover{border-color:var(--primary-light);transform:translateY(-2px)}
+.order-item.dragging{opacity:.55;transform:scale(.98)}
+.order-item.correct{border-style:solid;border-color:var(--success);background:rgba(34,197,94,.12)}
+.order-item.wrong{border-style:solid;border-color:var(--danger);background:rgba(239,68,68,.12)}
+.order-item .order-no{
+  display:inline-grid;place-items:center;
+  width:27px;height:27px;margin-right:.6rem;
+  border-radius:9px;
+  background:rgba(15,118,110,.12);
+  color:var(--primary);
+  font-weight:800;font-size:.78rem;
+}
+
+/* ========== TABEL REKAP ========== */
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:.86rem;
+  min-width:520px;
+}
+th,td{
+  padding:.75rem .8rem;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+th{color:var(--primary);font-weight:700;background:rgba(15,118,110,.07)}
+body.dark th{color:#7ff3e0}
+tr:hover td{background:rgba(20,184,166,.06)}
+
+/* ========== TOAST ========== */
+#toastArea{
+  position:fixed;
+  z-index:150;
+  bottom:1rem;left:50%;
+  transform:translateX(-50%);
+  display:grid;gap:.5rem;
+  width:min(92vw,420px);
+}
+.toast{
+  padding:.85rem 1rem;
+  border-radius:15px;
+  color:#fff;
+  font-size:.86rem;font-weight:600;
+  box-shadow:0 14px 35px rgba(0,0,0,.2);
+  animation:toastIn .35s ease;
+  display:flex;gap:.65rem;align-items:center;
+}
+.toast.success{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.toast.error{background:linear-gradient(135deg,#dc2626,#ef4444)}
+.toast.info{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+@keyframes toastIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ========== POPUP ========== */
+.modal{
+  position:fixed;inset:0;
+  z-index:140;
+  display:grid;place-items:center;
+  padding:1rem;
+  background:rgba(2,10,9,.58);
+  backdrop-filter:blur(5px);
+}
+.modal-card{
+  width:min(94vw,540px);
+  background:var(--surface-strong);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:1.5rem;
+  animation:pop .3s ease;
+}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.modal-icon{
+  width:60px;height:60px;
+  margin:auto;
+  border-radius:20px;
+  display:grid;place-items:center;
+  font-size:1.5rem;color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  margin-bottom:1rem;
+}
+
+/* ========== SCROLL TOP ========== */
+#scrollTop{
+  position:fixed;
+  right:1rem;bottom:1rem;
+  z-index:90;
+  width:48px;height:48px;
+  border-radius:16px;
+  border:none;
+  color:#fff;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  box-shadow:0 12px 28px rgba(15,118,110,.3);
+  cursor:pointer;
+  opacity:0;visibility:hidden;
+  transition:.3s;
+}
+#scrollTop.show{opacity:1;visibility:visible}
+
+/* ========== FOOTER ========== */
+footer{
+  margin-top:2rem;
+  padding:1.4rem 1rem;
+  text-align:center;
+  color:var(--muted);
+  font-size:.8rem;
+  border-top:1px solid var(--border);
+  background:var(--surface);
+  backdrop-filter:blur(16px);
+}
+footer strong{color:var(--primary)}
+
+/* ========== KONFETI ========== */
+#confettiCanvas{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:160;
+}
+
+/* ========== LOGIN ========== */
+#loginScreen{
+  min-height:100vh;
+  display:grid;place-items:center;
+  padding:1rem;
+}
+.login-card{
+  width:min(94vw,460px);
+  padding:1.7rem;
+  border-radius:26px;
+  background:var(--surface-strong);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+  animation:pop .45s ease;
+}
+.login-logo{
+  width:68px;height:68px;
+  margin:auto;
+  border-radius:22px;
+  display:grid;place-items:center;
+  color:#fff;font-size:1.7rem;
+  background:linear-gradient(135deg,var(--primary),var(--primary-light));
+  box-shadow:0 14px 30px rgba(15,118,110,.3);
+  margin-bottom:1rem;
+}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  .menu-btn{display:grid}
+  .brand-text h1{font-size:.88rem}
+  .brand-text p{display:none}
+  main{padding:1rem .8rem 6rem}
+  .card{padding:1.1rem}
+  .arabic{font-size:1.35rem}
+}
+@media(max-width:520px){
+  .hero{padding:1.25rem}
+  .hero-actions .btn{width:100%;justify-content:center}
+  .quiz-top{align-items:flex-start}
+  .option{font-size:.86rem}
+  .arabic{font-size:1.18rem}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+<section id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo"><i class="fa-solid fa-mosque"></i></div>
+    <div class="center">
+      <h1 style="font-size:1.25rem;font-weight:800">MS GPAI SMANSAKU</h1>
+      <p class="muted small">Media Pembelajaran Interaktif PAI & Budi Pekerti Kelas XI</p>
+    </div>
+
+    <div class="mt-2">
+      <div class="field">
+        <label for="loginName"><i class="fa-solid fa-user"></i> Nama Siswa</label>
+        <input id="loginName" type="text" placeholder="Masukkan nama lengkap" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="loginSchool"><i class="fa-solid fa-school"></i> Sekolah Asal</label>
+        <input id="loginSchool" type="text" placeholder="Masukkan nama sekolah" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="loginPin"><i class="fa-solid fa-key"></i> PIN</label>
+        <input id="loginPin" type="password" inputmode="numeric" maxlength="6" placeholder="Masukkan 6 digit PIN">
+      </div>
+      <button class="btn btn-primary" id="loginBtn" style="width:100%;justify-content:center">
+        <i class="fa-solid fa-right-to-bracket"></i> Masuk Aplikasi
+      </button>
+      <p class="small muted center mt-2">Gunakan PIN standar: <strong>123456</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= APLIKASI ================= -->
+<div id="app" class="hidden">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Buka menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-book-quran"></i></div>
+        <div class="brand-text">
+          <h1>PAI & Budi Pekerti Kelas XI</h1>
+          <p>MS GPAI SMANSAKU • Semester Ganjil</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="themeBtn" aria-label="Ganti mode tampilan">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="icon-btn" id="logoutBtn" aria-label="Keluar">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <button class="icon-btn sidebar-close" id="sidebarClose" aria-label="Tutup menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div>
+        <strong>MS GPAI SMANSAKU</strong>
+        <p class="small muted">Belajar PAI Interaktif</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <button class="nav-item active" data-page="beranda"><i class="fa-solid fa-house"></i> Beranda</button>
+      <button class="nav-item" data-page="petunjuk"><i class="fa-solid fa-circle-info"></i> Petunjuk</button>
+      <button class="nav-item" data-page="materi"><i class="fa-solid fa-book-open"></i> Materi Interaktif</button>
+      <button class="nav-item" data-page="game"><i class="fa-solid fa-puzzle-piece"></i> Game Susun Urutan</button>
+      <button class="nav-item" data-page="latihan"><i class="fa-solid fa-dumbbell"></i> Latihan</button>
+      <button class="nav-item" data-page="evaluasi"><i class="fa-solid fa-clipboard-check"></i> Evaluasi</button>
+      <button class="nav-item" data-page="ringkasan"><i class="fa-solid fa-chart-simple"></i> Ringkasan</button>
+      <button class="nav-item" data-page="referensi"><i class="fa-solid fa-link"></i> Referensi</button>
+      <button class="nav-item" data-page="profil"><i class="fa-solid fa-user-pen"></i> Profil Penyusun</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar" id="userAvatar">S</div>
+        <div>
+          <strong id="sidebarUserName">Siswa</strong>
+          <p class="small muted" id="sidebarUserSchool">Sekolah</p>
+        </div>
+      </div>
+      <div class="progress-row">
+        <span>Progres Belajar</span>
+        <span id="sidebarProgressText">0%</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="sidebarProgressFill"></div></div>
+    </div>
+  </aside>
+
+  <main>
+    <!-- ============ BERANDA ============ -->
+    <section class="page" id="page-beranda">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Media Pembelajaran</strong>
+      </div>
+
+      <div class="hero">
+        <span class="badge"><i class="fa-solid fa-star"></i> PAI & Budi Pekerti • Kelas XI • Semester Ganjil</span>
+        <h2>Belajar Berpikir Kritis, Berakhlak, dan Berdakwah</h2>
+        <p>Media ini membahas Q.S. Ali ‘Imran/3: 190–191, pentingnya berpikir kritis, menepati janji, mensyukuri nikmat, memelihara lisan, menutup aib, menghindari perundungan dan perjudian, serta ketentuan khutbah, tabligh, dan dakwah.</p>
+        <div class="hero-actions">
+          <button class="btn btn-ghost" data-goto="materi"><i class="fa-solid fa-book-open"></i> Mulai Belajar</button>
+          <button class="btn btn-ghost" data-goto="game"><i class="fa-solid fa-gamepad"></i> Mainkan Game</button>
+          <button class="btn btn-ghost" data-goto="evaluasi"><i class="fa-solid fa-clipboard-check"></i> Kerjakan Evaluasi</button>
+        </div>
+      </div>
+
+      <div class="card-grid mt-3">
+        <article class="card">
+          <i class="fa-solid fa-brain" style="color:var(--primary);font-size:1.5rem"></i>
+          <h2 class="mt-1">Berpikir Kritis</h2>
+          <p>Q.S. Ali ‘Imran/3: 190–191 mengajak manusia merenungkan penciptaan langit, bumi, serta pergantian siang dan malam sebagai tanda bagi ulul albab.</p>
+        </article>
+        <article class="card">
+          <i class="fa-solid fa-handshake" style="color:var(--primary);font-size:1.5rem"></i>
+          <h2 class="mt-1">Janji & Syukur</h2>
+          <p>Menepati janji dan mensyukuri nikmat merupakan wujud iman, tanggung jawab, serta kepedulian terhadap karunia Allah Swt.</p>
+        </article>
+        <article class="card">
+          <i class="fa-solid fa-shield-heart" style="color:var(--primary);font-size:1.5rem"></i>
+          <h2 class="mt-1">Lisan & Aib</h2>
+          <p>Memelihara lisan dan menutup aib orang lain menjaga kehormatan, mempererat ukhuwah, serta mencegah kerusakan sosial.</p>
+        </article>
+        <article class="card">
+          <i class="fa-solid fa-ban" style="color:var(--primary);font-size:1.5rem"></i>
+          <h2 class="mt-1">Cegah Penyakit Sosial</h2>
+          <p>Perundungan, perkelahian, dan perjudian merugikan diri maupun orang lain. Islam menganjurkan damai, adil, dan saling menghormati.</p>
+        </article>
+      </div>
+
+      <div class="card mt-3">
+        <h2><i class="fa-solid fa-chart-line"></i> Progres Belajarmu</h2>
+        <p class="muted small">Progres dihitung dari aktivitas materi, game, latihan, dan evaluasi yang telah kamu selesaikan.</p>
+        <div class="mt-2">
+          <div class="progress-row">
+            <span>Progres Total</span><span id="homeProgressText">0%</span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="homeProgressFill"></div></div>
+        </div>
+        <div class="card-grid mt-2">
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Skor Game</p>
+            <h2 id="statGame">0</h2>
+          </div>
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Skor Latihan</p>
+            <h2 id="statLatihan">0</h2>
+          </div>
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Skor Evaluasi</p>
+            <h2 id="statEvaluasi">0</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PETUNJUK ============ -->
+    <section class="page hidden" id="page-petunjuk">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Petunjuk Penggunaan</strong>
+      </div>
+
+      <div class="card">
+        <h2><i class="fa-solid fa-circle-info"></i> Petunjuk Penggunaan</h2>
+        <p>Selamat datang di media pembelajaran interaktif <strong>MS GPAI SMANSAKU</strong>. Ikuti langkah berikut agar pembelajaran berjalan optimal.</p>
+        <ul class="mt-2">
+          <li><strong>Login:</strong> masukkan nama, sekolah asal, dan PIN <strong>123456</strong>.</li>
+          <li><strong>Materi Interaktif:</strong> pelajari ayat, hadis, konsep, dan contoh penerapannya.</li>
+          <li><strong>Game Susun Urutan:</strong> susun pernyataan sesuai urutan yang benar. Setiap soal berdurasi 1 menit; jawaban salah langsung lanjut ke soal berikutnya.</li>
+          <li><strong>Latihan:</strong> terdiri dari 35 soal, yaitu 20 soal dasar dan 15 soal HOTS, dengan waktu 60 detik per soal.</li>
+          <li><strong>Evaluasi:</strong> terdiri dari 35 soal dengan komposisi dan waktu yang sama. Hasil tersimpan otomatis pada perangkatmu.</li>
+          <li><strong>Ringkasan:</strong> pantau skor, jumlah benar-salah, dan progres belajar.</li>
+          <li><strong>Logout:</strong> gunakan tombol keluar pada header apabila telah selesai belajar.</li>
+        </ul>
+      </div>
+
+      <div class="card mt-2">
+        <h3><i class="fa-solid fa-lightbulb"></i> Tips Belajar</h3>
+        <ul>
+          <li>Baca ayat dan hadis dengan tartil sesuai kaidah tajwid.</li>
+          <li>Pahami makna sebelum menghafal agar hafalan lebih bermakna.</li>
+          <li>Gunakan waktu 60 detik secara bijak; jangan terburu-buru.</li>
+          <li>Setelah menjawab, baca pembahasan untuk memperdalam pemahaman.</li>
+          <li>Terapkan nilai belajar dalam sikap sehari-hari: jujur, santun, dan bertanggung jawab.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ MATERI ============ -->
+    <section class="page hidden" id="page-materi">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Materi Interaktif</strong>
+      </div>
+
+      <div class="card">
+        <h2><i class="fa-solid fa-book-quran"></i> Q.S. Ali ‘Imran/3: 190–191</h2>
+        <p>Ayat ini menekankan pentingnya <strong>ulul albab</strong>, yaitu orang yang berakal dan mampu berpikir kritis terhadap tanda-tanda kebesaran Allah Swt.</p>
+
+        <div class="mt-2 arabic">
+          إِنَّ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافِ اللَّيْلِ وَالنَّهَارِ لَآيَاتٍ لِأُولِي الْأَلْبَابِ ۝ الَّذِينَ يَذْكُرُونَ اللَّهَ قِيَامًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِي خَلْقِ السَّمَاوَاتِ وَالْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَٰذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ
+        </div>
+
+        <div class="mt-2">
+          <p><strong>Terjemah:</strong> “Sesungguhnya dalam penciptaan langit dan bumi serta pergantian malam dan siang terdapat tanda-tanda bagi orang yang berakal, (yaitu) orang-orang yang mengingat Allah sambil berdiri, duduk, atau dalam keadaan berbaring, lalu memikirkan tentang penciptaan langit dan bumi (seraya berkata), ‘Ya Tuhan kami, tidaklah Engkau menciptakan semua ini sia-sia. Mahasuci Engkau. Lindungilah kami dari azab neraka.’”</p>
+          <p class="small muted">Sumber: Al-Qur’an dan Terjemahannya, Kementerian Agama RI; Q.S. Ali ‘Imran/3: 190–191.</p>
+        </div>
+
+        <div class="tabs mt-2">
+          <button class="tab active" data-materi-tab="makna">Makna Ayat</button>
+          <button class="tab" data-materi-tab="tajwid">Kaidah Tajwid</button>
+          <button class="tab" data-materi-tab="hadis">Hadis Terkait</button>
+          <button class="tab" data-materi-tab="sosial">Penyakit Sosial</button>
+          <button class="tab" data-materi-tab="dakwah">Khutbah, Tabligh & Dakwah</button>
+        </div>
+
+        <div class="tab-content" id="materi-makna">
+          <h3>Pentingnya Berpikir Kritis</h3>
+          <p>Berpikir kritis adalah kemampuan mengamati, menanyakan, menganalisis, membandingkan, dan menilai informasi secara rasional sebelum mengambil kesimpulan. Dalam Islam, berpikir kritis bukan berarti ragu-ragu terhadap keimanan, melainkan menggunakan akal untuk memahami tanda kebesaran Allah Swt.</p>
+          <ul>
+            <li><strong>Mengamati:</strong> memperhatikan alam, peristiwa, dan informasi di sekitar.</li>
+            <li><strong>Menganalisis:</strong> memilah fakta, opini, dan dugaan.</li>
+            <li><strong>Menilai:</strong> memeriksa kebenaran berdasarkan Al-Qur’an, hadis sahih, dan data yang dapat dipercaya.</li>
+            <li><strong>Mengambil tindakan:</strong> menerapkan pemahaman dalam sikap dan perbuatan yang bermanfaat.</li>
+          </ul>
+          <p><strong>Contoh:</strong> Sebelum menyebarkan informasi di media sosial, seorang siswa memeriksa sumber, membandingkan dengan berita resmi, dan tidak langsung memercayai pesan berantai.</p>
+        </div>
+
+        <div class="tab-content hidden" id="materi-tajwid">
+          <h3>Kaidah Bacaan dalam Q.S. Ali ‘Imran/3: 190–191</h3>
+          <p>Beberapa kaidah bacaan yang perlu diperhatikan ketika membaca ayat ini antara lain:</p>
+          <ul>
+            <li><strong>Mad thabi’i:</strong> bacaan panjang sekitar 2 harakat, misalnya pada <em>“sabātin”</em> dan <em>“lailin”</em>.</li>
+            <li><strong>Mad ‘iwadl:</strong> bacaan panjang sekitar 5–6 harakat ketika tanwin bertemu hamzah, misalnya pada <em>“lāyātin”</em>.</li>
+            <li><strong>Idgham bighunnah:</strong> nun sukun atau tanwin bertemu huruf <em>ya, nun, mim, waw</em>, dibaca dengung.</li>
+            <li><strong>Alif lam qamariyah:</strong> huruf <em>al</em> dibaca jelas, misalnya pada <em>al-ard</em>.</li>
+            <li><strong>Gunnah nun sukun:</strong> nun mati dibaca dengung ketika bertemu huruf tertentu.</li>
+          </ul>
+          <p class="small muted">Untuk praktik terbaik, gunakan mushaf Al-Qur’an dan tafsir yang disahkan oleh Kementerian Agama RI serta bimbingan guru pengaji.</p>
+        </div>
+
+        <div class="tab-content hidden" id="materi-hadis">
+          <h3>Hadis tentang Menutup Aib</h3>
+          <p>Rasulullah Saw. bersabda:</p>
+          <p class="arabic">مَنْ سَتَرَ مُسْلِمًا سَتَرَ اللَّهُ عَوْرَتَهُ يَوْمَ الْقِيَامَةِ</p>
+          <p><strong>Artinya:</strong> “Barang siapa yang menutup aib seorang muslim, maka Allah akan menutup aibnya pada hari kiamat.” <span class="small muted">(HR. Muslim)</span></p>
+          <p>Hadis ini menunjukkan bahwa seorang muslim dianjurkan menjaga kehormatan orang lain, tidak menyebarkan aib, dan mengutamakan solusi yang membina. Menutup aib bukan berarti menutupi kejahatan yang merugikan orang banyak; pelaporan melalui mekanisme yang benar tetap diperlukan demi keadilan dan keselamatan.</p>
+        </div>
+
+        <div class="tab-content hidden" id="materi-sosial">
+          <h3>Menghindari Perundungan, Perkelahian, dan Perjudian</h3>
+          <p><strong>Perundungan</strong> adalah perundungan fisik, verbal, sosial, maupun digital yang menimbulkan ketakutan, luka, atau pembiaran terhadap korban. <strong>Perkelahian</strong> adalah konflik fisik yang dapat menimbulkan cedera dan kerugian. <strong>Perjudian</strong> adalah mempertaruhkan sesuatu bernilai dengan mengandalkan untung-untungan.</p>
+          <ul>
+            <li>Perundungan melanggar martabat manusia dan dapat menimbulkan trauma.</li>
+            <li>Perkelahian tidak menyelesaikan masalah, tetapi memperluas kerusakan.</li>
+            <li>Perjudian menghilangkan harta, waktu, fokus belajar, dan dapat memicu konflik keluarga.</li>
+            <li>Islam menganjurkan damai, musyawarah, pengampunan, dan keadilan.</li>
+          </ul>
+          <p><strong>Langkah pencegahan:</strong> hentikan penyebaran ujaran kebencian, laporkan perundungan kepada guru atau orang tua, hindari provokasi, kelola emosi, dan ajak teman melakukan kegiatan positif.</p>
+        </div>
+
+        <div class="tab-content hidden" id="materi-dakwah">
+          <h3>Khutbah, Tabligh, dan Dakwah</h3>
+          <p><strong>Khutbah</strong> adalah pidato keagamaan yang disampaikan dalam keadaan tertentu, umumnya terkait shalat Jumat dan hari raya. <strong>Tabligh</strong> adalah penyampaian pesan Allah Swt. secara lisan kepada satu orang atau lebih agar dipahami dan diamalkan. <strong>Dakwah</strong> memiliki cakupan lebih luas: mengajak manusia kepada kebaikan melalui lisan, tulisan, maupun perbuatan.</p>
+          <ul>
+            <li>Dakwah mencakup akidah, syariah, akhlak, dan muamalah.</li>
+            <li>Dakwah dilakukan dengan lembut, mudah dipahami, jujur, dan berlandaskan sumber yang kuat.</li>
+            <li>Khutbah memuat hamdalah, syahadat, shalawat, wasiat, ayat Al-Qur’an, dan doa.</li>
+            <li>Tabligh menekankan penyampaian pesan agar dipahami dan diamalkan.</li>
+          </ul>
+          <p><strong>Contoh:</strong> Mengingatkan teman dengan santun untuk tidak menyebarkan berita palsu, membantu korban perundungan, atau memberi contoh perilaku jujur merupakan bentuk dakwah melalui perbuatan.</p>
+          <p class="small muted">Rujukan materi: Buku PAI dan Budi Pekerti Kelas XI, Kementerian Agama RI.</p>
+        </div>
+
+        <button class="btn btn-primary mt-3" id="selesaiMateriBtn">
+          <i class="fa-solid fa-check"></i> Tandai Materi Selesai
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ GAME ============ -->
+    <section class="page hidden" id="page-game">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Game Susun Urutan</strong>
+      </div>
+
+      <div class="card">
+        <div class="quiz-top">
+          <div>
+            <h2><i class="fa-solid fa-puzzle-piece"></i> Game Susun Urutan</h2>
+            <p class="muted small">Level 10 • 10 soal • 60 detik per soal • jawaban salah langsung lanjut</p>
+          </div>
+          <div class="timer" id="gameTimer"><i class="fa-solid fa-stopwatch"></i> <span>60</span>s</div>
+        </div>
+
+        <div class="progress-row">
+          <span>Soal <span id="gameCurrent">1</span> dari 10</span>
+          <span>Skor: <strong id="gameScore">0</strong></span>
+        </div>
+        <div class="progress-track mb-2"><div class="progress-fill" id="gameProgress"></div></div>
+
+        <div id="gameBox"></div>
+
+        <div class="flex mt-2">
+          <button class="btn btn-primary" id="gameCheckBtn"><i class="fa-solid fa-check"></i> Periksa Jawaban</button>
+          <button class="btn btn-ghost" id="gameRestartBtn"><i class="fa-solid fa-rotate-right"></i> Ulangi Game</button>
+        </div>
+        <div class="quiz-feedback" id="gameFeedback"></div>
+      </div>
+    </section>
+
+    <!-- ============ LATIHAN ============ -->
+    <section class="page hidden" id="page-latihan">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Latihan</strong>
+      </div>
+
+      <div class="card">
+        <div class="quiz-top">
+          <div>
+            <h2><i class="fa-solid fa-dumbbell"></i> Latihan 35 Soal</h2>
+            <p class="muted small">20 soal dasar + 15 soal HOTS • 60 detik per soal • tidak dapat disalin atau di-screenshot</p>
+          </div>
+          <div class="timer" id="latihanTimer"><i class="fa-solid fa-stopwatch"></i> <span>60</span>s</div>
+        </div>
+
+        <div class="progress-row">
+          <span>Soal <span id="latihanCurrent">1</span> dari 35</span>
+          <span>Skor: <strong id="latihanScore">0</strong></span>
+        </div>
+        <div class="progress-track mb-2"><div class="progress-fill" id="latihanProgress"></div></div>
+
+        <div id="latihanBox"></div>
+        <div class="quiz-feedback" id="latihanFeedback"></div>
+        <div class="flex mt-2">
+          <button class="btn btn-primary" id="latihanNextBtn"><i class="fa-solid fa-arrow-right"></i> Soal Berikutnya</button>
+          <button class="btn btn-ghost" id="latihanRestartBtn"><i class="fa-solid fa-rotate-right"></i> Ulangi Latihan</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVALUASI ============ -->
+    <section class="page hidden" id="page-evaluasi">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Evaluasi</strong>
+      </div>
+
+      <div class="card">
+        <div class="quiz-top">
+          <div>
+            <h2><i class="fa-solid fa-clipboard-check"></i> Evaluasi 35 Soal</h2>
+            <p class="muted small">20 soal dasar + 15 soal HOTS • 60 detik per soal • skor otomatis</p>
+          </div>
+          <div class="timer" id="evaluasiTimer"><i class="fa-solid fa-stopwatch"></i> <span>60</span>s</div>
+        </div>
+
+        <div class="progress-row">
+          <span>Soal <span id="evaluasiCurrent">1</span> dari 35</span>
+          <span>Skor: <strong id="evaluasiScore">0</strong></span>
+        </div>
+        <div class="progress-track mb-2"><div class="progress-fill" id="evaluasiProgress"></div></div>
+
+        <div id="evaluasiBox"></div>
+        <div class="quiz-feedback" id="evaluasiFeedback"></div>
+        <div class="flex mt-2">
+          <button class="btn btn-primary" id="evaluasiNextBtn"><i class="fa-solid fa-arrow-right"></i> Soal Berikutnya</button>
+          <button class="btn btn-ghost" id="evaluasiRestartBtn"><i class="fa-solid fa-rotate-right"></i> Ulangi Evaluasi</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RINGKASAN ============ -->
+    <section class="page hidden" id="page-ringkasan">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Ringkasan Hasil</strong>
+      </div>
+
+      <div class="card">
+        <h2><i class="fa-solid fa-chart-simple"></i> Ringkasan Hasil Belajar</h2>
+        <p class="muted small">Data disimpan secara lokal pada perangkat ini melalui Local Storage.</p>
+
+        <div class="card-grid mt-2">
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Nama Siswa</p>
+            <h3 id="ringkasanNama">-</h3>
+          </div>
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Sekolah Asal</p>
+            <h3 id="ringkasanSekolah">-</h3>
+          </div>
+          <div class="card" style="box-shadow:none">
+            <p class="small muted">Progres Belajar</p>
+            <h3 id="ringkasanProgres">0%</h3>
+          </div>
+        </div>
+
+        <div class="table-wrap mt-2">
+          <table>
+            <thead>
+              <tr>
+                <th>Kegiatan</th>
+                <th>Skor</th>
+                <th>Benar</th>
+                <th>Salah</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rekapTable">
+              <tr><td>Game Susun Urutan</td><td>-</td><td>-</td><td>-</td><td>Belum dikerjakan</td></tr>
+              <tr><td>Latihan</td><td>-</td><td>-</td><td>-</td><td>Belum dikerjakan</td></tr>
+              <tr><td>Evaluasi</td><td>-</td><td>-</td><td>-</td><td>Belum dikerjakan</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button class="btn btn-danger mt-2" id="resetDataBtn">
+          <i class="fa-solid fa-trash"></i> Hapus Data Progres
+        </button>
+      </div>
+    </section>
+
+    <!-- ============ REFERENSI ============ -->
+    <section class="page hidden" id="page-referensi">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Referensi</strong>
+      </div>
+
+      <div class="card">
+        <h2><i class="fa-solid fa-link"></i> Daftar Referensi</h2>
+        <ul>
+          <li>Kementerian Agama RI. <em>Al-Qur’an dan Terjemahannya</em>. Q.S. Ali ‘Imran/3: 190–191.</li>
+          <li>Kementerian Agama RI. <em>Buku PAI dan Budi Pekerti untuk SMA/MA Kelas XI</em>.</li>
+          <li>Kementerian Agama RI. <em>Buku Pedoman GPAI dan Budi Pekerti Kelas XI SMA/SMK</em>.</li>
+          <li>Imam Muslim. <em>Shahih Muslim</em>, hadis tentang menutup aib seorang muslim.</li>
+          <li>Quran.com. <em>Surah Ali ‘Imran 190–191</em>, teks Arab dan terjemahan.</li>
+          <li>Kementerian Agama RI, Cendikia. Materi khutbah, tabligh, dan dakwah PAI Kelas XI.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ PROFIL ============ -->
+    <section class="page hidden" id="page-profil">
+      <div class="breadcrumb">
+        <span><i class="fa-solid fa-house"></i> Beranda</span>
+        <i class="fa-solid fa-chevron-right"></i>
+        <strong>Profil Penyusun</strong>
+      </div>
+
+      <div class="card center">
+        <div class="login-logo"><i class="fa-solid fa-user-graduate"></i></div>
+        <h2>MS GPAI SMANSAKU</h2>
+        <p class="muted">Penyusun Media Pembelajaran Interaktif</p>
+        <div class="mt-2">
+          <p><strong>Mata Pelajaran:</strong> PAI dan Budi Pekerti</p>
+          <p><strong>Jenjang:</strong> Kelas XI SMA/MA</p>
+          <p><strong>Semester:</strong> Ganjil</p>
+          <p><strong>Topik:</strong> Berpikir kritis, akhlak sosial, pencegahan penyakit sosial, serta khutbah, tabligh, dan dakwah.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>MS GPAI SMANSAKU</strong> • Media Pembelajaran Interaktif PAI dan Budi Pekerti Kelas XI</p>
+    <p class="small">Semoga bermanfaat untuk meningkatkan iman, ilmu, dan amal saleh.</p>
+  </footer>
+</div>
+
+<!-- Tombol Scroll ke Atas -->
+<button id="scrollTop" aria-label="Scroll ke atas"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- Area Toast -->
+<div id="toastArea"></div>
+
+<!-- Canvas Konfeti -->
+<canvas id="confettiCanvas"></canvas>
+
+<!-- Modal -->
+<div class="modal hidden" id="modal">
+  <div class="modal-card">
+    <div class="modal-icon" id="modalIcon"><i class="fa-solid fa-circle-check"></i></div>
+    <h2 class="center" id="modalTitle">Judul</h2>
+    <p class="muted center mt-1" id="modalText">Deskripsi</p>
+    <div class="flex mt-2" style="justify-content:center">
+      <button class="btn btn-ghost" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i> Tutup</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   BAGIAN 1: KONFIGURASI DAN DATA APLIKASI
+   ========================================================= */
+
+// PIN standar; ubah nilai SECRET_PIN bila diperlukan.
+const SECRET_PIN = "123456";
+
+// Kunci penyimpanan lokal
+const LS_USER = "msgpai_user";
+const LS_PROGRESS = "msgpai_progress";
+const LS_THEME = "msgpai_theme";
+
+// Elemen utama
+const loginScreen = document.getElementById("loginScreen");
+const app = document.getElementById("app");
+const sidebar = document.getElementById("sidebar");
+
+/* =========================================================
+   BAGIAN 2: SUARA SEDERHANA MENGGUNAKAN WEB AUDIO API
+   Tidak membutuhkan file audio eksternal.
+   ========================================================= */
+let audioContext;
+
+function playTone(frequency, duration, type = "sine", volume = .18){
+  try{
+    if(!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.001, audioContext.currentTime + duration);
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+  }catch(e){
+    // Audio dapat diblokir browser sebelum interaksi pertama; aplikasi tetap berjalan.
+  }
+}
+
+const playClick = () => playTone(520, .08, "triangle");
+const playCorrect = () => {
+  playTone(660, .14, "sine");
+  setTimeout(() => playTone(880, .18, "sine"), 130);
+};
+const playWrong = () => {
+  playTone(220, .18, "sawtooth", .12);
+  setTimeout(() => playTone(160, .22, "sawtooth", .12), 140);
+};
+
+/* =========================================================
+   BAGIAN 3: TOAST, POPUP, DAN KONFETI
+   ========================================================= */
+function showToast(message, type = "info"){
+  const area = document.getElementById("toastArea");
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+  const icon = type === "success" ? "fa-circle-check" : type === "error" ? "fa-circle-exclamation" : "fa-circle-info";
+  toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+  area.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(12px)";
+    setTimeout(() => toast.remove(), 320);
+  }, 2800);
+}
+
+function openModal(title, text, type = "success"){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalText").textContent = text;
+  const icon = document.getElementById("modalIcon");
+  icon.innerHTML = type === "success"
+    ? '<i class="fa-solid fa-trophy"></i>'
+    : type === "error"
+    ? '<i class="fa-solid fa-circle-exclamation"></i>'
+    : '<i class="fa-solid fa-circle-info"></i>';
+  document.getElementById("modal").classList.remove("hidden");
+}
+
+document.getElementById("modalCloseBtn").addEventListener("click", () => {
+  playClick();
+  document.getElementById("modal").classList.add("hidden");
+});
+
+// Konfeti sederhana menggunakan canvas
+function launchConfetti(){
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+  const colors = ["#14b8a6","#0f766e","#f59e0b","#22c55e","#3b82f6","#ffffff"];
+  const pieces = Array.from({length:110}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    w: 6 + Math.random() * 7,
+    h: 9 + Math.random() * 10,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vy: 2.5 + Math.random() * 4,
+    vx: -1.5 + Math.random() * 3,
+    rot: Math.random() * Math.PI,
+    vr: -.08 + Math.random() * .16
+  }));
+  let frame = 0;
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    frame++;
+    if(frame < 220) requestAnimationFrame(animate);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  animate();
+}
+
+/* =========================================================
+   BAGIAN 4: LOGIN, LOGOUT, TEMA, DAN SIDEBAR
+   ========================================================= */
+document.getElementById("loginBtn").addEventListener("click", () => {
+  playClick();
+  const name = document.getElementById("loginName").value.trim();
+  const school = document.getElementById("loginSchool").value.trim();
+  const pin = document.getElementById("loginPin").value.trim();
+
+  if(!name || !school || !pin){
+    showToast("Lengkapi nama, sekolah, dan PIN terlebih dahulu.", "error");
+    playWrong();
+    return;
+  }
+  if(pin !== SECRET_PIN){
+    showToast("PIN salah. Coba lagi.", "error");
+    playWrong();
+    return;
+  }
+
+  const user = {name, school};
+  localStorage.setItem(LS_USER, JSON.stringify(user));
+  applyUser(user);
+  loginScreen.classList.add("hidden");
+  app.classList.remove("hidden");
+  showToast(`Selamat datang, ${name}!`, "success");
+  playCorrect();
+  launchConfetti();
+});
+
+function applyUser(user){
+  document.getElementById("sidebarUserName").textContent = user.name;
+  document.getElementById("sidebarUserSchool").textContent = user.school;
+  document.getElementById("userAvatar").textContent = user.name.charAt(0).toUpperCase();
+  document.getElementById("ringkasanNama").textContent = user.name;
+  document.getElementById("ringkasanSekolah").textContent = user.school;
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  playClick();
+  openModal("Keluar Aplikasi", "Apakah kamu yakin ingin keluar dari aplikasi?", "info");
+  document.getElementById("modalCloseBtn").textContent = "Batal";
+});
+
+// Konfirmasi logout melalui modal
+document.getElementById("modalCloseBtn").addEventListener("dblclick", () => {
+  localStorage.removeItem(LS_USER);
+  location.reload();
+});
+
+document.getElementById("themeBtn").addEventListener("click", () => {
+  playClick();
+  document.body.classList.toggle("dark");
+  const dark = document.body.classList.contains("dark");
+  localStorage.setItem(LS_THEME, dark ? "dark" : "light");
+  document.getElementById("themeBtn").innerHTML = dark
+    ? '<i class="fa-solid fa-sun"></i>'
+    : '<i class="fa-solid fa-moon"></i>';
+});
+
+document.getElementById("menuBtn").addEventListener("click", () => {
+  playClick();
+  sidebar.classList.add("open");
+});
+document.getElementById("sidebarClose").addEventListener("click", () => {
+  playClick();
+  sidebar.classList.remove("open");
+});
+
+document.getElementById("sidebarNav").addEventListener("click", e => {
+  const btn = e.target.closest(".nav-item");
+  if(!btn) return;
+  playClick();
+  goToPage(btn.dataset.page);
+  sidebar.classList.remove("open");
+});
+
+document.querySelectorAll("[data-goto]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    playClick();
+    goToPage(btn.dataset.goto);
+  });
+});
+
+function goToPage(page){
+  document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
+  document.getElementById(`page-${page}`).classList.remove("hidden");
+  document.querySelectorAll(".nav-item").forEach(n => {
+    n.classList.toggle("active", n.dataset.page === page);
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+  updateProgress();
+}
+
+/* =========================================================
+   BAGIAN 5: TIMER DAN UTILITAS KUIS
+   ========================================================= */
+function startTimer(elementId, seconds, onTimeout){
+  clearInterval(window.timerInterval);
+  let time = seconds;
+  const timer = document.getElementById(elementId);
+  timer.querySelector("span").textContent = time;
+  timer.classList.remove("danger");
+
+  window.timerInterval = setInterval(() => {
+    time--;
+    timer.querySelector("span").textContent = time;
+    if(time <= 10) timer.classList.add("danger");
+    if(time <= 0){
+      clearInterval(window.timerInterval);
+      onTimeout();
+    }
+  }, 1000);
+}
+
+function stopTimer(){
+  clearInterval(window.timerInterval);
+}
+
+function shuffle(array){
+  return [...array].sort(() => Math.random() - .5);
+}
+
+/* =========================================================
+   BAGIAN 6: BANK SOAL LATIHAN DAN EVALUASI
+   20 soal dasar + 15 soal HOTS = 35 soal
+   ========================================================= */
+const questionBank = [
+  // ===== 20 SOAL DASAR =====
+  {q:"Q.S. Ali ‘Imran/3: 190–191 terutama menekankan sikap …", options:["Berpikir dan merenungkan tanda kebesaran Allah","Menimbun harta","Menghindari belajar","Mengabaikan alam"], answer:0, level:"dasar", explain:"Ayat tersebut menyoroti orang berakal yang merenungkan penciptaan langit dan bumi."},
+  {q:"Istilah <em>ulul albab</em> berarti …", options:["Orang yang berakal","Orang yang kaya","Orang yang sombong","Orang yang suka berdebat"], answer:0, level:"dasar", explain:"Ulul albab adalah orang yang memiliki akal dan mampu mengambil pelajaran."},
+  {q:"Aktivitas mengingat Allah dalam ayat 191 disebut …", options:["Dzikir","Riba","Ghibah","Takabur"], answer:0, level:"dasar", explain:"Dzikir adalah mengingat atau menyebut Allah Swt."},
+  {q:"Menepati janji mencerminkan sifat …", options:["Amanah","Sombong","Riya","Bakhil"], answer:0, level:"dasar", explain:"Menepati janji merupakan wujud amanah dan tanggung jawab."},
+  {q:"Sikap mensyukuri nikmat dapat diwujudkan melalui …", options:["Menggunakan nikmat secara bertanggung jawab","Memboroskan harta","Mengeluh terus-menerus","Mengabaikan orang lain"], answer:0, level:"dasar", explain:"Syukur mencakup hati, lisan, dan perbuatan."},
+  {q:"Memelihara lisan berarti …", options:["Berbicara sesuai kebutuhan dan kebenaran","Suka menggunjing","Suka berbohong","Suka menghina"], answer:0, level:"dasar", explain:"Lisan yang terjaga mencegah perselisihan dan menyakiti orang lain."},
+  {q:"Menutup aib orang lain berarti …", options:["Tidak menyebarkan keburukan orang lain","Menyebarkan rahasia orang","Menghakimi tanpa bukti","Menyindir di media sosial"], answer:0, level:"dasar", explain:"Islam menganjurkan menjaga kehormatan sesama muslim."},
+  {q:"Perundungan termasuk penyakit sosial karena …", options:["Menyakiti dan merendahkan orang lain","Membantu korban","Mendorong kerja sama","Meningkatkan kepercayaan diri"], answer:0, level:"dasar", explain:"Perundungan menimbulkan luka fisik, psikis, dan sosial."},
+  {q:"Salah satu bentuk perundungan digital adalah …", options:["Menyebarkan komentar menghina","Memberi masukan santun","Membantu teman belajar","Melaporkan konten negatif"], answer:0, level:"dasar", explain:"Cyberbullying merupakan perundungan melalui media digital."},
+  {q:"Perkelahian sering terjadi karena …", options:["Emosi tidak terkendali","Musyawarah yang baik","Empati tinggi","Pengendalian diri"], answer:0, level:"dasar", explain:"Kendali emosi penting untuk mencegah konflik fisik."},
+  {q:"Perjudian adalah …", options:["Mempertaruhkan sesuatu bernilai dengan untung-untungan","Menabung di bank","Sedekah rutin","Belajar bersama"], answer:0, level:"dasar", explain:"Perjudian mengandalkan untung-untungan dan dapat merugikan."},
+  {q:"Khutbah umumnya disampaikan dalam keadaan …", options:["Terkait shalat Jumat dan hari raya","Saat tidur","Saat berjudi","Saat berkelahi"], answer:0, level:"dasar", explain:"Khutbah memiliki ketentuan dan situasi tertentu dalam syariat."},
+  {q:"Tabligh adalah …", options:["Menyampaikan pesan Allah agar dipahami dan diamalkan","Menimbun informasi","Menyebarkan aib orang","Memaksa orang lain"], answer:0, level:"dasar", explain:"Tabligh menekankan penyampaian pesan secara jelas dan santun."},
+  {q:"Dakwah dapat dilakukan melalui …", options:["Lisan, tulisan, dan perbuatan","Kekerasan","Paksaan","Ujaran kebencian"], answer:0, level:"dasar", explain:"Dakwah mencakup perkataan maupun teladan perbuatan."},
+  {q:"Sikap dakwah yang tepat adalah …", options:["Lembut dan mudah dipahami","Kasar dan memaksa","Sombong","Menuduh tanpa bukti"], answer:0, level:"dasar", explain:"Dakwah hendaknya santun, jelas, dan berlandaskan sumber yang kuat."},
+  {q:"Salah satu manfaat menghindari perundungan adalah …", options:["Menciptakan lingkungan aman","Menambah konflik","Menurunkan empati","Memperluas kebencian"], answer:0, level:"dasar", explain:"Lingkungan aman mendukung tumbuh kembang siswa."},
+  {q:"Menepati janji akan memperkuat …", options:["Kepercayaan orang lain","Kebiasaan berbohong","Perundungan","Perkelahian"], answer:0, level:"dasar", explain:"Janji yang ditepati membangun kepercayaan dan tanggung jawab."},
+  {q:"Sikap yang sesuai ketika melihat teman di-bully adalah …", options:["Membantu dan melaporkan kepada pihak berwenang","Ikut menertawakan","Merekam untuk dipublikasikan","Mengabaikan korban"], answer:0, level:"dasar", explain:"Dukungan dan pelaporan yang tepat melindungi korban."},
+  {q:"Salah satu ciri perjudian adalah …", options:["Ada taruhan dan untung-untungan","Ada musyawarah","Ada sedekah","Ada belajar bersama"], answer:0, level:"dasar", explain:"Taruhan dan ketidakpastian merupakan ciri utama perjudian."},
+  {q:"Berpikir kritis membantu siswa untuk …", options:["Memeriksa kebenaran informasi","Menerima semua berita tanpa cek","Menyebarkan hoaks","Menghakimi orang"], answer:0, level:"dasar", explain:"Berpikir kritis mendorong verifikasi sebelum menyimpulkan."},
+
+  // ===== 15 SOAL HOTS =====
+  {q:"Seorang siswa melihat video berisi tuduhan terhadap temannya. Tindakan paling sesuai dengan Q.S. Ali ‘Imran/3: 190–191 adalah …", options:["Menganalisis sumber sebelum menyimpulkan dan tidak menyebarkan","Langsung menyebarkan agar viral","Menghakimi teman tersebut","Ikut menambahkan komentar negatif"], answer:0, level:"hots", explain:"Berpikir kritis menuntut verifikasi sebelum bertindak atau menyebarkan informasi."},
+  {q:"Kamu telah berjanji membantu kelompok, tetapi ada ajakan bermain yang lebih menarik. Sikap paling tepat adalah …", options:["Menepati janji dan menyelesaikan tanggung jawab","Membatalkan janji tanpa kabar","Menyalahkan anggota kelompok","Menghindari kelompok"], answer:0, level:"hots", explain:"Menepati janji mencerminkan amanah dan tanggung jawab."},
+  {q:"Kamu mengetahui kesalahan pribadi teman yang tidak membahayakan orang lain. Sikap paling sesuai adalah …", options:["Menasihati secara privat dengan santun","Menyebarkan di grup kelas","Membuat meme","Menghina di media sosial"], answer:0, level:"hots", explain:"Nasihat privat dan menutup aib menjaga kehormatan orang lain."},
+  {q:"Seorang teman sering dihina karena prestasinya rendah. Tindakan paling tepat adalah …", options:["Mendukung dan melaporkan perundungan kepada guru","Ikut mengejek","Menyebarkan tangkapan layar","Membiarkan terus-menerus"], answer:0, level:"hots", explain:"Dukungan dan pelaporan melalui jalur tepat melindungi korban."},
+  {q:"Dalam percakapan daring, temanmu memprovokasi untuk berkelahi. Sikap paling bijak adalah …", options:["Menghentikan percakapan dan melaporkan jika diperlukan","Membalas dengan kata kasar","Menantang untuk bertemu","Menyebarkan provokasi"], answer:0, level:"hots", explain:"Menghindari eskalasi konflik dan memanfaatkan mekanisme pelaporan."},
+  {q:"Teman menawarkan permainan daring dengan taruhan uang. Sikap yang paling tepat adalah …", options:["Menolak dan menjelaskan bahaya perjudian","Ikut bermain agar diterima","Mengajak teman lain bertaruh","Menyembunyikan kalahnya"], answer:0, level:"hots", explain:"Menolak perjudian dan memberi pemahaman merupakan tindakan preventif."},
+  {q:"Ayat 191 mengajarkan hubungan antara dzikir dan tafakur. Pernyataan yang paling tepat adalah …", options:["Dzikir dan tafakur mendorong kesadaran akan tujuan penciptaan","Dzikir menggantikan seluruh proses belajar","Tafakur berarti menerima semua informasi","Dzikir hanya dilakukan saat shalat"], answer:0, level:"hots", explain:"Dzikir dan tafakur saling melengkapi dalam membangun kesadaran iman."},
+  {q:"Jika informasi viral bertentangan dengan berita resmi, sikap paling kritis adalah …", options:["Membandingkan sumber dan menunggu konfirmasi","Menyebarkan versi viral","Meyakini tanpa bukti","Menghina pihak yang berbeda"], answer:0, level:"hots", explain:"Verifikasi silang sumber adalah inti berpikir kritis."},
+  {q:"Kamu menemukan aib teman yang berpotensi membahayakan keselamatan banyak orang. Tindakan paling tepat adalah …", options:["Melaporkan melalui mekanisme resmi demi keselamatan","Menyebarkan ke grup media sosial","Menyimpan diam tanpa tindakan apa pun","Mengancam pelaku"], answer:0, level:"hots", explain:"Menutup aib tidak berarti membiarkan bahaya; keselamatan dan keadilan tetap diutamakan."},
+  {q:"Seorang siswa mendapat nilai tinggi karena menyalin jawaban. Ia lalu memamerkannya. Refleksi yang tepat adalah …", options:["Kejujuran lebih penting daripada pencapaian semu","Nilai tinggi selalu mencerminkan kejujuran","Menyalin adalah hal wajar","Tidak perlu bertanggung jawab"], answer:0, level:"hots", explain:"Kejujuran dan tanggung jawab merupakan nilai inti pembelajaran."},
+  {q:"Perbedaan utama tabligh dan dakwah adalah …", options:["Tabligh menekankan penyampaian pesan, dakwah cakupannya lebih luas termasuk perbuatan","Tabligh selalu memaksa, dakwah tidak","Dakwah hanya untuk ulama","Tabligh tidak menggunakan bahasa"], answer:0, level:"hots", explain:"Dakwah lebih luas dan dapat diwujudkan melalui lisan maupun perilaku."},
+  {q:"Kamu diminta berbicara tentang bahaya perundungan di kelas. Susunan penyampaian yang baik adalah …", options:["Pembukaan, penjelasan dampak, contoh pencegahan, dan ajakan bertindak","Tuduhan langsung kepada seseorang","Cerita aib teman","Ujaran kasar"], answer:0, level:"hots", explain:"Komunikasi yang efektif harus terstruktur, santun, dan solutif."},
+  {q:"Jika banyak siswa terlibat perkelahian akibat salah paham, langkah preventif terbaik adalah …", options:["Musyawarah dan mediasi bersama pihak sekolah","Menunggu konflik membesar","Menyebarkan video pertengkaran","Menunjuk pihak yang salah tanpa bukti"], answer:0, level:"hots", explain:"Mediasi dan musyawarah mencegah konflik berkembang."},
+  {q:"Sikap syukur paling tepat ketika memperoleh fasilitas belajar yang baik adalah …", options:["Menggunakan fasilitas secara bertanggung jawab dan berbagi manfaat","Merusak fasilitas","Menggunakan hanya untuk diri sendiri","Mengeluh karena kurang"], answer:0, level:"hots", explain:"Syukur diwujudkan melalui penggunaan nikmat secara bertanggung jawab."},
+  {q:"Seorang siswa ingin berdakwah di media sosial. Langkah paling tepat adalah …", options:["Menyampaikan pesan santun berdasarkan sumber yang jelas","Menyebarkan konten provokatif","Menghakimi kelompok lain","Menggunakan bahasa kasar"], answer:0, level:"hots", explain:"Dakwah digital perlu santun, akurat, dan berlandaskan sumber yang kuat."}
+];
+
+/* =========================================================
+   BAGIAN 7: DATA GAME SUSUN URUTAN
+   ========================================================= */
+const gameData = [
+  {title:"Urutkan langkah berpikir kritis", items:["Mengamati informasi atau peristiwa","Menanyakan sumber dan bukti","Menganalisis fakta dan opini","Menarik kesimpulan yang tepat","Menerapkan hasil pemahaman"]},
+  {title:"Urutkan nilai dalam Q.S. Ali ‘Imran/3: 190–191", items:["Mengamati tanda kebesaran Allah","Mengingat Allah dalam berbagai keadaan","Merenungkan penciptaan langit dan bumi","Menyadari penciptaan tidak sia-sia","Berdoa agar terlindung dari azab neraka"]},
+  {title:"Urutkan sikap menjaga lisan", items:["Berhenti sebelum berbicara","Memeriksa kebenaran informasi","Memilih kata yang santun","Menyampaikan dengan tujuan baik","Menghindari ghibah dan fitnah"]},
+  {title:"Urutkan langkah menepati janji", items:["Memahami kemampuan diri","Membuat janji secara jelas","Mengingat janji yang dibuat","Mengusahakan pelaksanaan","Menepati janji atau berkomunikasi jika ada kendala"]},
+  {title:"Urutkan wujud syukur", items:["Menyadari nikmat yang diterima","Mengucap syukur kepada Allah","Menggunakan nikmat sesuai peruntukan","Membantu orang lain","Menjaga agar tidak boros"]},
+  {title:"Urutkan penanganan perundungan", items:["Mengenali tanda perundungan","Menghentikan pelaku dengan aman","Mendukung korban","Mendokumentasikan bukti bila perlu","Melaporkan kepada guru atau pihak berwenang"]},
+  {title:"Urutkan pencegahan perkelahian", items:["Mengenali pemicu emosi","Menahan diri dari provokasi","Menggunakan bahasa santun","Melakukan musyawarah","Mencari bantuan pihak yang tepat"]},
+  {title:"Urutkan bahaya perjudian", items:["Tertarik pada keuntungan instan","Mempertaruhkan uang atau barang","Mengalami kerugian","Mengalami konflik dan kecanduan","Mengabaikan tanggung jawab belajar"]},
+  {title:"Urutkan unsur penting khutbah", items:["Membaca hamdalah","Membaca syahadat","Membaca shalawat Nabi","Menyampaikan wasiat","Membaca doa"]},
+  {title:"Urutkan bentuk dakwah yang santun", items:["Menyampaikan pesan dengan lembut","Menggunakan bahasa mudah dipahami","Menunjukkan teladan perilaku","Menghormati lawan bicara","Mengajak kepada kebaikan"]}
+];
+
+/* =========================================================
+   BAGIAN 8: MESIN KUIS LATIHAN DAN EVALUASI
+   ========================================================= */
+function createQuizEngine(config){
+  const {
+    boxId, currentId, scoreId, progressId, feedbackId,
+    nextBtnId, restartBtnId, timerId, storageKey, totalQuestions, onDone
+  } = config;
+
+  const box = document.getElementById(boxId);
+  const currentEl = document.getElementById(currentId);
+  const scoreEl = document.getElementById(scoreId);
+  const progressEl = document.getElementById(progressId);
+  const feedback = document.getElementById(feedbackId);
+  const nextBtn = document.getElementById(nextBtnId);
+  const restartBtn = document.getElementById(restartBtnId);
+
+  let questions = [];
+  let index = 0;
+  let score = 0;
+  let correct = 0;
+  let wrong = 0;
+  let answered = false;
+
+  function prepare(){
+    // 20 soal dasar + 15 HOTS, diacak agar tidak monoton.
+    const basic = shuffle(questionBank.filter(q => q.level === "dasar")).slice(0,20);
+    const hots = shuffle(questionBank.filter(q => q.level === "hots")).slice(0,15);
+    questions = shuffle([...basic, ...hots]);
+    index = 0;
+    score = 0;
+    correct = 0;
+    wrong = 0;
+    render();
+  }
+
+  function render(){
+    answered = false;
+    feedback.className = "quiz-feedback";
+    feedback.textContent = "";
+    nextBtn.disabled = true;
+
+    if(index >= totalQuestions){
+      finish();
+      return;
+    }
+
+    const q = questions[index];
+    currentEl.textContent = index + 1;
+    scoreEl.textContent = score;
+    progressEl.style.width = `${(index / totalQuestions) * 100}%`;
+
+    const options = shuffle(q.options.map((text,i) => ({text, original:i})));
+    box.innerHTML = `
+      <div class="flex mb-1">
+        ${q.level === "hots" ? '<span class="hots-badge"><i class="fa-solid fa-fire"></i> HOTS</span>' : '<span class="hots-badge" style="background:rgba(59,130,246,.14);color:var(--info)"><i class="fa-solid fa-circle"></i> Dasar</span>'}
+        <span class="small muted"><i class="fa-solid fa-shield-halved"></i> Soal dilindungi dari salin & screenshot</span>
+      </div>
+      <h3>${q.q}</h3>
+      <div class="mt-2" id="optionArea">
+        ${options.map((opt,i) => `
+          <button class="option" data-original="${opt.original}">
+            <span class="letter">${String.fromCharCode(65+i)}</span>
+            <span>${opt.text}</span>
+          </button>
+        `).join("")}
+      </div>
+    `;
+
+    // Cegah seleksi teks, klik kanan, dan shortcut salin/screenshot umum.
+    box.addEventListener("contextmenu", e => e.preventDefault());
+    box.addEventListener("copy", e => e.preventDefault());
+    box.addEventListener("cut", e => e.preventDefault());
+    box.addEventListener("dragstart", e => e.preventDefault());
+
+    box.querySelectorAll(".option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if(answered) return;
+        answered = true;
+        const chosen = Number(btn.dataset.original);
+        const isCorrect = chosen === q.answer;
+
+        if(isCorrect){
+          score += 10;
+          correct++;
+          btn.classList.add("correct");
+          feedback.className = "quiz-feedback correct show";
+          feedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Benar!</strong> ${q.explain}`;
+          playCorrect();
+        }else{
+          wrong++;
+          btn.classList.add("wrong");
+          const correctBtn = box.querySelector(`.option[data-original="${q.answer}"]`);
+          if(correctBtn) correctBtn.classList.add("correct");
+          feedback.className = "quiz-feedback wrong show";
+          feedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <strong>Kurang tepat.</strong> ${q.explain}`;
+          playWrong();
+        }
+
+        scoreEl.textContent = score;
+        box.querySelectorAll(".option").forEach(o => o.disabled = true);
+        nextBtn.disabled = false;
+      });
+    });
+
+    startTimer(timerId, 60, () => {
+      if(answered) return;
+      answered = true;
+      wrong++;
+      feedback.className = "quiz-feedback wrong show";
+      feedback.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> <strong>Waktu habis.</strong> ${q.explain}`;
+      playWrong();
+      box.querySelectorAll(".option").forEach(o => o.disabled = true);
+      const correctBtn = box.querySelector(`.option[data-original="${q.answer}"]`);
+      if(correctBtn) correctBtn.classList.add("correct");
+      nextBtn.disabled = false;
+    });
+  }
+
+  function finish(){
+    stopTimer();
+    progressEl.style.width = "100%";
+    box.innerHTML = `
+      <div class="center">
+        <div class="modal-icon"><i class="fa-solid fa-medal"></i></div>
+        <h2>Selesai!</h2>
+        <p class="muted">Skor akhir: <strong>${score}</strong> dari ${totalQuestions * 10}</p>
+        <p class="muted small">Benar: ${correct} • Salah: ${wrong}</p>
+      </div>
+    `;
+    saveResult(score, correct, wrong);
+    launchConfetti();
+    playCorrect();
+    openModal("Kuis Selesai", `Skor ${storageKey === "latihan" ? "latihan" : "evaluasi"} kamu adalah ${score}.`, "success");
+    if(onDone) onDone();
+  }
+
+  function saveResult(finalScore, finalCorrect, finalWrong){
+    const data = getProgress();
+    data[storageKey] = {
+      score: finalScore,
+      correct: finalCorrect,
+      wrong: finalWrong,
+      done: true,
+      date: new Date().toLocaleString("id-ID")
+    };
+    localStorage.setItem(LS_PROGRESS, JSON.stringify(data));
+    updateProgress();
+  }
+
+  nextBtn.addEventListener("click", () => {
+    playClick();
+    if(!answered) return;
+    index++;
+    render();
+  });
+
+  restartBtn.addEventListener("click", () => {
+    playClick();
+    prepare();
+    showToast("Kuis dimulai ulang.", "info");
+  });
+
+  prepare();
+}
+
+/* =========================================================
+   BAGIAN 9: GAME SUSUN URUTAN
+   ========================================================= */
+const gameBox = document.getElementById("gameBox");
+const gameFeedback = document.getElementById("gameFeedback");
+const gameScoreEl = document.getElementById("gameScore");
+const gameCurrentEl = document.getElementById("gameCurrent");
+const gameProgressEl = document.getElementById("gameProgress");
+const gameCheckBtn = document.getElementById("gameCheckBtn");
+const gameRestartBtn = document.getElementById("gameRestartBtn");
+
+let gameIndex = 0;
+let gameScore = 0;
+let gameCorrect = 0;
+let gameWrong = 0;
+let gameAnswered = false;
+let draggedItem = null;
+
+function startGame(){
+  gameIndex = 0;
+  gameScore = 0;
+  gameCorrect = 0;
+  gameWrong = 0;
+  renderGame();
+}
+
+function renderGame(){
+  gameAnswered = false;
+  gameFeedback.className = "quiz-feedback";
+  gameFeedback.textContent = "";
+  gameCheckBtn.disabled = true;
+
+  if(gameIndex >= gameData.length){
+    finishGame();
+    return;
+  }
+
+  const data = gameData[gameIndex];
+  gameCurrentEl.textContent = gameIndex + 1;
+  gameScoreEl.textContent = gameScore;
+  gameProgressEl.style.width = `${(gameIndex / gameData.length) * 100}%`;
+
+  const shuffled = shuffle(data.items);
+  gameBox.innerHTML = `
+    <h3><i class="fa-solid fa-list-ol"></i> ${data.title}</h3>
+    <p class="muted small">Seret atau klik item untuk mengubah urutan, lalu tekan <strong>Periksa Jawaban</strong>.</p>
+    <div id="orderArea" class="mt-2">
+      ${shuffled.map(item => `
+        <div class="order-item" draggable="true">
+          <span class="order-no"><i class="fa-solid fa-grip-lines"></i></span> ${item}
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  const area = document.getElementById("orderArea");
+  const items = [...area.querySelectorAll(".order-item")];
+
+  // Drag and drop untuk perangkat desktop
+  items.forEach(item => {
+    item.addEventListener("dragstart", () => {
+      draggedItem = item;
+      item.classList.add("dragging");
+    });
+    item.addEventListener("dragend", () => {
+      item.classList.remove("dragging");
+      draggedItem = null;
+    });
+    item.addEventListener("dragover", e => {
+      e.preventDefault();
+      if(!draggedItem || draggedItem === item) return;
+      const rect = item.getBoundingClientRect();
+      const after = e.clientY > rect.top + rect.height / 2;
+      area.insertBefore(draggedItem, after ? item.nextSibling : item);
+    });
+  });
+
+  // Dukungan klik naik-turun untuk perangkat mobile
+  items.forEach(item => {
+    item.addEventListener("click", () => {
+      playClick();
+      const next = item.nextElementSibling;
+      if(next) area.insertBefore(next, item);
+      else area.insertBefore(item, area.firstElementChild);
+    });
+  });
+
+  startTimer("gameTimer", 60, () => {
+    if(gameAnswered) return;
+    gameAnswered = true;
+    gameWrong++;
+    gameFeedback.className = "quiz-feedback wrong show";
+    gameFeedback.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> <strong>Waktu habis.</strong> Jawaban otomatis dianggap salah dan lanjut ke soal berikutnya.`;
+    playWrong();
+    gameCheckBtn.disabled = false;
+  });
+}
+
+gameCheckBtn.addEventListener("click", () => {
+  playClick();
+  if(gameAnswered) return;
+  gameAnswered = true;
+
+  const data = gameData[gameIndex];
+  const items = [...document.querySelectorAll("#orderArea .order-item")];
+  const userOrder = items.map(item => item.textContent.replace(/^\s*\S+\s*/, "").trim());
+  const isCorrect = userOrder.every((item,i) => item === data.items[i]);
+
+  if(isCorrect){
+    gameScore += 10;
+    gameCorrect++;
+    items.forEach(item => item.classList.add("correct"));
+    gameFeedback.className = "quiz-feedback correct show";
+    gameFeedback.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Urutan benar!</strong> Skor +10.`;
+    playCorrect();
+  }else{
+    gameWrong++;
+    items.forEach(item => item.classList.add("wrong"));
+    gameFeedback.className = "quiz-feedback wrong show";
+    gameFeedback.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <strong>Urutan belum tepat.</strong> Jawaban salah, lanjut ke soal berikutnya.`;
+    playWrong();
+  }
+
+  gameScoreEl.textContent = gameScore;
+  gameCheckBtn.disabled = false;
+});
+
+// Soal salah langsung lanjut ke soal berikutnya sesuai konfigurasi.
+gameCheckBtn.addEventListener("click", () => {
+  setTimeout(() => {
+    if(gameIndex < gameData.length - 1){
+      gameIndex++;
+      renderGame();
+    }else{
+      finishGame();
+    }
+  }, 900);
+});
+
+function finishGame(){
+  stopTimer();
+  gameProgressEl.style.width = "100%";
+  gameBox.innerHTML = `
+    <div class="center">
+      <div class="modal-icon"><i class="fa-solid fa-trophy"></i></div>
+      <h2>Game Selesai!</h2>
+      <p class="muted">Skor akhir: <strong>${gameScore}</strong> dari ${gameData.length * 10}</p>
+      <p class="muted small">Benar: ${gameCorrect} • Salah: ${gameWrong}</p>
+    </div>
+  `;
+  const data = getProgress();
+  data.game = {score:gameScore, correct:gameCorrect, wrong:gameWrong, done:true, date:new Date().toLocaleString("id-ID")};
+  localStorage.setItem(LS_PROGRESS, JSON.stringify(data));
+  updateProgress();
+  launchConfetti();
+  playCorrect();
+  openModal("Game Selesai", `Skor game kamu adalah ${gameScore}.`, "success");
+}
+
+gameRestartBtn.addEventListener("click", () => {
+  playClick();
+  startGame();
+  showToast("Game dimulai ulang.", "info");
+});
+
+/* =========================================================
+   BAGIAN 10: TAB MATERI DAN PROGRES
+   ========================================================= */
+document.querySelectorAll("[data-materi-tab]").forEach(tab => {
+  tab.addEventListener("click", () => {
+    playClick();
+    document.querySelectorAll("[data-materi-tab]").forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+    document.querySelectorAll(".tab-content").forEach(c => c.classList.add("hidden"));
+    document.getElementById(`materi-${tab.dataset.materiTab}`).classList.remove("hidden");
+  });
+});
+
+document.getElementById("selesaiMateriBtn").addEventListener("click", () => {
+  playClick();
+  const data = getProgress();
+  data.materi = {done:true, date:new Date().toLocaleString("id-ID")};
+  localStorage.setItem(LS_PROGRESS, JSON.stringify(data));
+  updateProgress();
+  showToast("Materi ditandai selesai.", "success");
+  launchConfetti();
+});
+
+function getProgress(){
+  try{
+    return JSON.parse(localStorage.getItem(LS_PROGRESS)) || {};
+  }catch(e){
+    return {};
+  }
+}
+
+function updateProgress(){
+  const data = getProgress();
+  const tasks = ["materi","game","latihan","evaluasi"];
+  const done = tasks.filter(t => data[t] && data[t].done).length;
+  const percent = Math.round((done / tasks.length) * 100);
+
+  document.getElementById("sidebarProgressText").textContent = `${percent}%`;
+  document.getElementById("sidebarProgressFill").style.width = `${percent}%`;
+  document.getElementById("homeProgressText").textContent = `${percent}%`;
+  document.getElementById("homeProgressFill").style.width = `${percent}%`;
+  document.getElementById("ringkasanProgres").textContent = `${percent}%`;
+
+  document.getElementById("statGame").textContent = data.game ? data.game.score : 0;
+  document.getElementById("statLatihan").textContent = data.latihan ? data.latihan.score : 0;
+  document.getElementById("statEvaluasi").textContent = data.evaluasi ? data.evaluasi.score : 0;
+
+  const rows = [
+    ["Game Susun Urutan", data.game],
+    ["Latihan", data.latihan],
+    ["Evaluasi", data.evaluasi]
+  ];
+
+  document.getElementById("rekapTable").innerHTML = rows.map(([label, item]) => `
+    <tr>
+      <td>${label}</td>
+      <td>${item ? item.score : "-"}</td>
+      <td>${item ? item.correct : "-"}</td>
+      <td>${item ? item.wrong : "-"}</td>
+      <td>${item && item.done ? "Selesai" : "Belum dikerjakan"}</td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("resetDataBtn").addEventListener("click", () => {
+  playClick();
+  localStorage.removeItem(LS_PROGRESS);
+  updateProgress();
+  showToast("Data progres berhasil dihapus.", "info");
+});
+
+/* =========================================================
+   BAGIAN 11: SCROLL TOP, TEMUAN TAMPILAN, DAN INISIALISASI
+   ========================================================= */
+const scrollTopBtn = document.getElementById("scrollTop");
+window.addEventListener("scroll", () => {
+  scrollTopBtn.classList.toggle("show", window.scrollY > 250);
+});
+scrollTopBtn.addEventListener("click", () => {
+  playClick();
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+
+// Cegah salin dan screenshot pada area kuis/game sesuai permintaan
+document.addEventListener("contextmenu", e => {
+  if(e.target.closest("#latihanBox, #evaluasiBox, #gameBox")) e.preventDefault();
+});
+document.addEventListener("copy", e => {
+  if(e.target.closest("#latihanBox, #evaluasiBox, #gameBox")) e.preventDefault();
+});
+document.addEventListener("keydown", e => {
+  const protectedArea = e.target.closest && e.target.closest("#latihanBox, #evaluasiBox, #gameBox");
+  if(protectedArea && (e.ctrlKey || e.metaKey) && ["c","x","p","s","u"].includes(e.key.toLowerCase())){
+    e.preventDefault();
+    showToast("Fitur salin dan screenshot dinonaktifkan pada area kuis.", "error");
+  }
+});
+
+// Inisialisasi tema tersimpan
+if(localStorage.getItem(LS_THEME) === "dark"){
+  document.body.classList.add("dark");
+  document.getElementById("themeBtn").innerHTML = '<i class="fa-solid fa-sun"></i>';
+}
+
+// Inisialisasi pengguna tersimpan
+const savedUser = JSON.parse(localStorage.getItem(LS_USER) || "null");
+if(savedUser){
+  applyUser(savedUser);
+  loginScreen.classList.add("hidden");
+  app.classList.remove("hidden");
+  updateProgress();
+}
+
+// Inisialisasi kuis
+createQuizEngine({
+  boxId:"latihanBox",
+  currentId:"latihanCurrent",
+  scoreId:"latihanScore",
+  progressId:"latihanProgress",
+  feedbackId:"latihanFeedback",
+  nextBtnId:"latihanNextBtn",
+  restartBtnId:"latihanRestartBtn",
+  timerId:"latihanTimer",
+  storageKey:"latihan",
+  totalQuestions:35
+});
+
+createQuizEngine({
+  boxId:"evaluasiBox",
+  currentId:"evaluasiCurrent",
+  scoreId:"evaluasiScore",
+  progressId:"evaluasiProgress",
+  feedbackId:"evaluasiFeedback",
+  nextBtnId:"evaluasiNextBtn",
+  restartBtnId:"evaluasiRestartBtn",
+  timerId:"evaluasiTimer",
+  storageKey:"evaluasi",
+  totalQuestions:35
+});
+
+startGame();
+updateProgress();
+</script>
